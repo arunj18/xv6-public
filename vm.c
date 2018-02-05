@@ -365,7 +365,6 @@ copyout(pde_t *pgdir, uint va, void *p, uint len)
 {
   char *buf, *pa0;
   uint n, va0;
-
   buf = (char*)p;
   while(len > 0){
     va0 = (uint)PGROUNDDOWN(va);
@@ -389,4 +388,25 @@ copyout(pde_t *pgdir, uint va, void *p, uint len)
 // Blank page.
 //PAGEBREAK!
 // Blank page.
-
+int vm_usage(){
+ int count=0;
+ int icount=0;
+ int i=0;
+ int j=0;
+ pte_t *pgtab;
+ for(i=0;i<1024;i++){
+  if((kpgdir[i] & PTE_P)){
+  	pgtab = (pte_t*)P2V(PTE_ADDR(*kpgdir+i));
+        icount=0;
+   for(j=0;j<1024;j++){
+	if(!(((pde_t *)(&pgtab))[j] & PTE_P)){
+			icount++;	
+	}
+   }
+   count+=icount;
+  }
+ else
+ 	count=count+1024;
+ }
+ return count;
+}

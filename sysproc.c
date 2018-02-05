@@ -89,3 +89,28 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+// returns memory usages
+int
+sys_meminfo(void){
+	int q;
+	if(argint(0,&q)==0){
+		if(q==0){
+			return PGSIZE;	
+		}
+		else if(q==1){
+			return frame_count();	
+		}
+		else if(q==2){
+			return PHYSTOP;
+		}
+		else if(q==4){
+			return vm_usage();	
+		}
+		else if(q==3){
+			return NPDENTRIES*NPTENTRIES;		
+		}
+		else
+			return -1;
+	}
+	return -1;
+}
