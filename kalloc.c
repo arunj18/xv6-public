@@ -93,4 +93,21 @@ kalloc(void)
     release(&kmem.lock);
   return (char*)r;
 }
-
+int
+frame_count(void){
+	struct run *r;
+        int i=0;
+	if(kmem.use_lock)
+    		acquire(&kmem.lock);
+  	r = kmem.freelist;
+  	while(r){
+    		r = r->next;
+		i = i+1;
+	}
+        //kmem.freelist=r->next;
+  	if(kmem.use_lock)
+ 	   	release(&kmem.lock);
+        //if((uint) r> (uint)PHYSTOP)
+	//	return 0;
+  	return i;
+}

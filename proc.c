@@ -532,3 +532,12 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+/*int 
+proc_virt(void){
+	struct proc *p;
+	acquire(&ptable.lock);
+  	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+    		p->pgdir;
+  	release(&ptable.lock);
+}*/
